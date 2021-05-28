@@ -1,1 +1,9 @@
-.env
+.env*
+
+build
+
+*.log
+
+
+.vscode
+__debug_bin

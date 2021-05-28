@@ -1,8 +1,10 @@
 package service
 
 import (
+	"fmt"
 	"log"
 	"os"
+	"strconv"
 
 	gomail "gopkg.in/gomail.v2"
 )
@@ -25,9 +27,12 @@ func SendEmail(recipients []string, subject string, htmlBody string) {
 	m.SetHeader("Subject", subject)
 	m.SetBody("text/html", htmlBody)
 
-	d := gomail.NewPlainDialer("smtp.gmail.com", 587, configEmail, configPassword)
+	configPort, _ := strconv.Atoi(os.Getenv("CONFIG_PORT"))
+
+	d := gomail.NewDialer(os.Getenv("CONFIG_HOST"), configPort, configEmail, configPassword)
 	if err := d.DialAndSend(m); err != nil {
-		panic(err)
+		fmt.Println(err)
+		return
 	}
 
 	log.Println("Mail sent!")
