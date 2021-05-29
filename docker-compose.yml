@@ -1,0 +1,19 @@
+version: "3.5"
+
+services:
+    go-mail:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: go-mail-image
+        container_name: go-mail-http
+        ports:
+            - 8080:8080
+        env_file: 
+            - ".env"
+        networks: 
+            - go-mail-net
+    
+networks:
+    go-mail-net:
+        driver: bridge

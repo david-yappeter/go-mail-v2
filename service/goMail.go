@@ -1,6 +1,7 @@
 package service
 
 import (
+	"crypto/tls"
 	"fmt"
 	"log"
 	"os"
@@ -30,6 +31,10 @@ func SendEmail(recipients []string, subject string, htmlBody string) {
 	configPort, _ := strconv.Atoi(os.Getenv("CONFIG_PORT"))
 
 	d := gomail.NewDialer(os.Getenv("CONFIG_HOST"), configPort, configEmail, configPassword)
+
+	// x509: error not signed by authority fixed
+	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
+
 	if err := d.DialAndSend(m); err != nil {
 		fmt.Println(err)
 		return
