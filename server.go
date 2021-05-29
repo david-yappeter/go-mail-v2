@@ -16,6 +16,7 @@ func main() {
 	}
 
 	router := mux.NewRouter()
+	router.Use(service.AllowCors)
 	router.Use(service.Middleware)
 	router.HandleFunc("/send", service.HandlerSendEmail).Methods(http.MethodPost)
 
